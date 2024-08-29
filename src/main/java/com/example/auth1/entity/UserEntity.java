@@ -16,5 +16,7 @@ public class UserEntity {
     private String username;
     @Setter
     private String password;
+    @Setter
+    private String authorities;
 
 }

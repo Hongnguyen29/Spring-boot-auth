@@ -4,6 +4,7 @@ import com.example.auth1.entity.UserEntity;
 import com.example.auth1.repo.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,11 +28,13 @@ public class JpaUserService implements UserDetailsService {
         UserEntity alex = new UserEntity();
         alex.setUsername("alex");
         alex.setPassword(passwordEncoder.encode("password"));
+        alex.setAuthorities("ROLE_USER,READ");
         repository.save(alex);
 
         UserEntity brad = new UserEntity();
         brad.setUsername("brad");
         brad.setPassword(passwordEncoder.encode("password"));
+        brad.setAuthorities("ROLE_ADMIN,READ,WRITE");
         repository.save(brad);
     }
 
@@ -42,8 +45,12 @@ public class JpaUserService implements UserDetailsService {
                 repository.findByUsername(username);
         if (optionalUser.isEmpty())
             throw new UsernameNotFoundException(username);
+        UserEntity user = optionalUser.get();
+        String[] authorities = user.getAuthorities().split(",");
+
         return User.withUsername(username)
-                .password(optionalUser.get().getPassword())
+                .password(user.getPassword())
+                .authorities(authorities)
                 .build();
     }
     public void createUser(
@@ -56,6 +63,7 @@ public class JpaUserService implements UserDetailsService {
         UserEntity newUser = new UserEntity();
         newUser.setUsername(username);
         newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setAuthorities("ROLE_USER,READ");
         repository.save(newUser);
 
     }

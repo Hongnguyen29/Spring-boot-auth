@@ -13,4 +13,22 @@ public class TestController {
     public String authenticated(){
         return "authenticated";
     }
+    @GetMapping("/user-role")
+    public String userRole(){
+        return "user-role";
+
+    }
+    @GetMapping("/admin-role")
+    public String adminRole(){
+        return "admin-role";
+    }
+    @GetMapping("/read-authority")
+    public String readAuthority(){
+        return "read-authority";
+
+    }
+    @GetMapping("/write-authority")
+    public String writeAuthority(){
+        return "write-authority";
+    }
 }
