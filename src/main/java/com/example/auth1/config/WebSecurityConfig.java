@@ -24,7 +24,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/no-auth","/error",
-                                    "/users/register")
+                                    "/users/register","/token/test")
                             .permitAll();
                     auth.requestMatchers("/authenticated","/users/my-profile")
                             .authenticated();
